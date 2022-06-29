@@ -38,7 +38,7 @@ class Discord:
                     result = cmd.minecraft_setup(argv)
                     await message.channel.send(result)
 
-                if message.content.startswith('!start'):
+                elif message.content.startswith('!start'):
                     argv = message.content.split()
                     msg: str = ":arrows_counterclockwise: **サーバーを起動しています**"
                     await message.channel.send(msg)

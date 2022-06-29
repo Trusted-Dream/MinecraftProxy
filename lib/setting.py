@@ -13,7 +13,7 @@ class Setting(tk.Frame):
         self.pack_propagate(False)
         self.tk_frame()
 
-    def tk_frame(self):
+    def tk_frame(self) -> None:
         msg1 = (
             u'Discordで使用するBOTのAPIKEYを入力してください'
         )
@@ -41,7 +41,7 @@ class Setting(tk.Frame):
         Quit_Button.pack(fill = "x", padx=50, side = "left")
         
 
-    def button_action(self):
+    def button_action(self) -> None:
         self.input_msg1 = self.EditBox1.get()
         self.input_msg2 = self.EditBox2.get()
         if len(self.input_msg1)<=60:
@@ -65,7 +65,7 @@ class Setting(tk.Frame):
             )
             self.root.destroy()
 
-    def exit(self):
+    def exit(self) -> None:
         self.root.destroy()
         sys.exit()
 
@@ -77,7 +77,7 @@ class Setting(tk.Frame):
             messagebox.showerror("エラーが発生しました！", e.args[0])
             os.remove(self.file)
 
-def Setup():
+def Setup() -> None:
 
     # IMAGE FILE ENVIRONMENT
     image:str = os.environ.get("IMAGE_FILE","")

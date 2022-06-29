@@ -3,6 +3,7 @@ import lxml.html
 import os
 import re
 import subprocess as prc
+from typing import Union
 from lib.minecraft_launcher import MinecraftLauncher
 from bs4 import BeautifulSoup
 
@@ -20,7 +21,7 @@ class Minecraft_SetUp:
         self.jarname = f"server_{argv}.jar"
         self.download_url = f"https://mcversions.net/download/{argv}"
 
-    def get_server_url(self,url):
+    def get_server_url(self,url) -> Union[str,None]:
         request = self.session.get(
                 url,
                 timeout=5,

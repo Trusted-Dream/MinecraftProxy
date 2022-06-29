@@ -11,6 +11,7 @@ class Commnad:
     def __init__(self):
         self.file = os.environ.get("SETTING_FILE","")
 
+    # Discord Bot Setup
     def discord_setup(self,id,name) -> str:
         with open(self.file, mode="a",encoding='utf-8') as f:
             f.write(
@@ -28,6 +29,7 @@ class Commnad:
         load_dotenv(verbose=True,dotenv_path=self.file)
         return send_message
 
+    # Discord Command Help
     def discord_help(self) -> str:
         send_message: str = (
         "```"
@@ -42,6 +44,7 @@ class Commnad:
         )
         return send_message
 
+    # Minecraft Setup
     def minecraft_setup(self,argv) -> str:
         version_check_url = "https://mcversions.net"
         if len(argv) == 2:
@@ -58,11 +61,13 @@ class Commnad:
             send_message = Minecraft_SetUp(version).setup()
             return send_message
 
+    # RCON Password Generator
     def pass_gen(self,size=16) -> str:
         chars = string.ascii_uppercase + string.ascii_lowercase + string.digits
         password = ''.join(secrets.choice(chars) for x in range(size))
         return password
 
+    # Minecraft Start
     def minecraft_start(self,argv) -> str:
         try:
             if len(argv) == 2:
@@ -76,10 +81,12 @@ class Commnad:
             send_message = ":x: **セットアップされていないため、起動できません！**"
             return send_message
 
+    # Minecraft Stop
     def minecraft_stop(self) -> str:
         send_message = MinecraftLauncher().stop()
         return send_message
 
+    # Minecraft Command
     def minecraft_command(self,command) -> str:
         send_message = MinecraftLauncher().cmd(command)
         return send_message

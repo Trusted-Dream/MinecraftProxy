@@ -23,7 +23,7 @@ class Tray:
             menu=menu
         )
 
-    def exit_app(self):
+    def exit_app(self) -> None:
         self.icon.stop()
 
     def discord_run(self,loop) -> None:
