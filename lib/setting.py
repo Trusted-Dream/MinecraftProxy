@@ -57,7 +57,11 @@ class Setting(tk.Frame):
         else:
             messagebox.showinfo(
                 title="初回セットアップを完了させてください", 
-                message="「OK」ボタンを押した後、\nDiscordを開き、BOTを使用するチャンネルで「OK」と入力してください"
+                message=(
+                    "Discordを開き、BOTを使用するチャンネルで「OK」と入力してください\n"
+                    "「OK」ボタンを押した後、プログラムはタスクトレイに格納されます\n"
+                    "プログラムはタスクトレイから「Exit」で停止できます"
+                )
             )
             self.root.destroy()
 
