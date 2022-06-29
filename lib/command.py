@@ -30,15 +30,15 @@ class Commnad:
 
     def discord_help(self) -> str:
         send_message: str = (
-            "```"
-            "[使用できるコマンド]\n"
-            "!setup -- Minecraftサーバを構築します。\n \
-                引数なしは最新。引数にバージョン指定ができます。使用例：!setup 1.18.2\n"
-            "!start -- Minecraftサーバを起動します。\n \
-                引数なしはsetting.txtのバージョンで立ち上げます。使用例：!start 1.18.2\n"
-            "!stop  -- Minecraftサーバを停止します\n"
-            "!c     -- Minecraftにコマンドを送信します。使用例：!c weather clear"
-            "```"
+        "```"
+        "[使用できるコマンド]\n"
+        "!setup -- Minecraftサーバを構築します。\n \
+         引数なしは最新。引数にバージョン指定ができます。使用例：!setup 1.18.2\n"
+        "!start -- Minecraftサーバを起動します。\n \
+         引数なしはsetting.txtのバージョンで立ち上げます。使用例：!start 1.18.2\n"
+        "!stop  -- Minecraftサーバを停止します\n"
+        "!c     -- Minecraftにコマンドを送信します。使用例：!c weather clear"
+        "```"
         )
         return send_message
 
@@ -64,15 +64,16 @@ class Commnad:
         return password
 
     def minecraft_start(self,argv) -> str:
-        if len(argv) == 2:
-            try:
+        try:
+            if len(argv) == 2:
                 send_message = MinecraftLauncher(f"minecraft_{argv[1]}/start.bat").start()
-            except NotADirectoryError:
-                send_message = ":x: **セットアップされていないため、起動できません！**"
-            return send_message
-        else:
-            version = os.environ.get("VERSION")
-            send_message = MinecraftLauncher(f"minecraft_{version}/start.bat").start()
+                return send_message
+            else:
+                version = os.environ.get("VERSION")
+                send_message = MinecraftLauncher(f"minecraft_{version}/start.bat").start()
+                return send_message
+        except NotADirectoryError:
+            send_message = ":x: **セットアップされていないため、起動できません！**"
             return send_message
 
     def minecraft_stop(self) -> str:
