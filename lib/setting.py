@@ -59,7 +59,7 @@ class Setting(tk.Frame):
                 title="初回セットアップを完了させてください", 
                 message="「OK」ボタンを押した後、\nDiscordを開き、BOTを使用するチャンネルで「OK」と入力してください"
             )
-            self.root.quit()
+            self.root.destroy()
 
     def exit(self):
         self.root.destroy()
@@ -82,6 +82,7 @@ def Setup():
 
     if not os.path.isfile(file):
         root = tk.Tk()
+        root.title(u"MinecraftProxy")
         root.update_idletasks()
         w = root.winfo_width()
         h = root.winfo_height()
@@ -96,7 +97,6 @@ def Setup():
         root.iconbitmap(default=image)
         setting = Setting(root=root,file=file)
         setting.mainloop()
-        setting.tk_frame()
 
         value = (
             f"DISCORD_API={setting.input_msg1}\n"
