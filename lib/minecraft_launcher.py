@@ -28,7 +28,10 @@ class MinecraftLauncher:
             data_lines = data_lines.replace("server-port=25565", f"server-port={self.server_port}")
             data_lines = data_lines.replace("query.port=25565", f"query.port={self.server_port}")
             data_lines = data_lines.replace("rcon.port=25575", f"rcon.port={self.rcon_port}")
-            if not f"rcon.password={self.rcon_password}" in data_lines:
+            print (data_lines)
+            if not "rcon.password=" in data_lines:
+                data_lines += f"rcon.password={self.rcon_password}\n"
+            elif not f"rcon.password={self.rcon_password}" in data_lines:
                 data_lines = data_lines.replace("rcon.password=",f"rcon.password={self.rcon_password}")
 
         with open(file, mode="w", encoding='utf-8') as f:
@@ -45,7 +48,7 @@ class MinecraftLauncher:
 
     def start(self,switch=None):
         cwd = pathlib.Path(self.batchfile).resolve().parent
-        prc.Popen(f"start.bat", cwd=cwd,shell=True)
+        prc.Popen("start.bat", cwd=cwd,shell=True)
 
         # 3分間チェックする
         for x in range(60):
@@ -57,10 +60,10 @@ class MinecraftLauncher:
             if check:
                 break
         else:
-            msg = f":x: サーバが正常に起動しませんでした"
+            msg = f":x: サーバーが正常に起動しませんでした"
             return msg
         
-        msg = f":white_check_mark: サーバを起動しました"
+        msg = f":white_check_mark: サーバーを起動しました"
         return msg
 
     def stop(self):
@@ -73,10 +76,10 @@ class MinecraftLauncher:
                 if not check:
                     break
             else:
-                msg = f":x: サーバが正常に停止しませんでした"
+                msg = f":x: サーバーが正常に停止しませんでした"
                 return msg
 
-            msg = ":white_check_mark: サーバを停止しました"
+            msg = ":white_check_mark: サーバーを停止しました"
             prc.run("taskkill /F /IM cmd.exe /T", shell=True)
             return msg
 
