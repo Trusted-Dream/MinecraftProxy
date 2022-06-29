@@ -57,10 +57,10 @@ class MinecraftLauncher:
             if check:
                 break
         else:
-            msg = f":x: サーバが正常に起動しませんでした"
+            msg = f":x: サーバーが正常に起動しませんでした"
             return msg
         
-        msg = f":white_check_mark: サーバを起動しました"
+        msg = f":white_check_mark: サーバーを起動しました"
         return msg
 
     def stop(self):
@@ -73,10 +73,10 @@ class MinecraftLauncher:
                 if not check:
                     break
             else:
-                msg = f":x: サーバが正常に停止しませんでした"
+                msg = f":x: サーバーが正常に停止しませんでした"
                 return msg
 
-            msg = ":white_check_mark: サーバを停止しました"
+            msg = ":white_check_mark: サーバーを停止しました"
             prc.run("taskkill /F /IM cmd.exe /T", shell=True)
             return msg
 

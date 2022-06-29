@@ -32,7 +32,7 @@ class Discord:
             elif int(owner_id) == message.author.id:
                 if message.content.startswith('!setup'):
                     argv = message.content.split()
-                    msg: str = ":arrows_counterclockwise: **セットアップ開始します**"
+                    msg: str = ":arrows_counterclockwise: **セットアップ開始しています**処理に1、2分程掛かる場合があります"
                     await message.channel.send(msg)
                     result = cmd.minecraft_setup(argv)
                     await message.channel.send(result)
@@ -56,7 +56,7 @@ class Discord:
                         result = cmd.minecraft_command(command)
                         await message.channel.send(result)
                     except ConnectionRefusedError:
-                        result = ":x: サーバが起動していません！"
+                        result = ":x: サーバーが起動していません！"
                         await message.channel.send(result)
 
                 elif message.content.startswith('!help'):
