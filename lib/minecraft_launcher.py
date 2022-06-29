@@ -28,7 +28,6 @@ class MinecraftLauncher:
             data_lines = data_lines.replace("server-port=25565", f"server-port={self.server_port}")
             data_lines = data_lines.replace("query.port=25565", f"query.port={self.server_port}")
             data_lines = data_lines.replace("rcon.port=25575", f"rcon.port={self.rcon_port}")
-            print (data_lines)
             if not "rcon.password=" in data_lines:
                 data_lines += f"rcon.password={self.rcon_password}\n"
             elif not f"rcon.password={self.rcon_password}" in data_lines:

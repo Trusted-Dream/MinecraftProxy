@@ -19,6 +19,7 @@ class Discord:
 
     async def on_message(self, message) -> None:
         if message.author.name == os.environ.get("DISCORD_OWNER"):
+            load_dotenv(verbose=True,dotenv_path=os.environ.get("SETTING_FILE"))
             owner_id = os.environ.get("DISCORD_OWNER_ID")
             cmd = Commnad()
             if owner_id == None and message.content.startswith("OK"):
