@@ -87,6 +87,7 @@ def Setup() -> None:
     if not os.path.isfile(file):
         root = tk.Tk()
         root.title(u"MinecraftProxy")
+        root.resizable(False,False)
         root.update_idletasks()
         w = root.winfo_width()
         h = root.winfo_height()
