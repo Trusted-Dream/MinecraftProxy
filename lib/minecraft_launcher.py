@@ -13,13 +13,13 @@ class MinecraftLauncher:
         self.rcon_port = os.environ.get("RCON_PORT")
         self.cwd = pathlib.Path(batchfile).resolve().parent
 
-    def port_check(self):
+    def port_check(self) -> bytes:
         cmd = f'netstat -nao |findstr "0.0.0.0:{self.rcon_port}"'
         port = prc.Popen(cmd, shell=True,stdout=prc.PIPE)
         stdout,_ = port.communicate()
         return stdout
 
-    def server_properties(self):
+    def server_properties(self) -> None:
         file = f"{self.cwd}//server.properties"
 
         with open(file, mode="r",encoding='utf-8') as f:
@@ -36,7 +36,7 @@ class MinecraftLauncher:
         with open(file, mode="w", encoding='utf-8') as f:
             f.write(data_lines)
 
-    def latest_log_check(self):
+    def latest_log_check(self) -> list:
 
         log_file = f"{self.cwd}//logs/latest.log"
 
@@ -45,7 +45,7 @@ class MinecraftLauncher:
             result = [x for x in f.readlines() if re.search(p,x) is not None]
             return result
 
-    def start(self,switch=None):
+    def start(self,switch=None) -> str:
         cwd = pathlib.Path(self.batchfile).resolve().parent
         prc.Popen("start.bat", cwd=cwd,shell=True)
 
@@ -65,7 +65,7 @@ class MinecraftLauncher:
         msg = f":white_check_mark: サーバーを起動しました"
         return msg
 
-    def stop(self):
+    def stop(self) -> str:
         with MCRcon("localhost", self.rcon_password, int(self.rcon_port)) as mcr:
             mcr.command("/stop")
             # 3分間チェックする
@@ -82,7 +82,7 @@ class MinecraftLauncher:
             prc.run("taskkill /F /IM cmd.exe /T", shell=True)
             return msg
 
-    def cmd(self,cmd):
+    def cmd(self,cmd) -> str:
         with MCRcon("localhost", self.rcon_password, int(self.rcon_port)) as mcr:
             mcr.command(cmd)
             msg = f":white_check_mark: 以下コマンドを実行しました\n`{cmd}`"

@@ -23,7 +23,7 @@ class Tray:
             menu=menu
         )
 
-    def exit_app(self):
+    def exit_app(self) -> None:
         self.icon.stop()
 
     def discord_run(self,loop) -> None:
@@ -32,7 +32,11 @@ class Tray:
         try:
             objDiscord.run()
         except Exception as e:
-            messagebox.showerror("エラーが発生しました！", f"API KEYを確認してください\n{e.args[0]}")
+            messagebox.showerror(
+                "エラーが発生しました！", 
+                f"DiscordBotへの接続に失敗しました\n"
+                "API KEYを確認してください\n{e.args[0]}"
+            )
             self.icon.stop()
 
     def run(self):
