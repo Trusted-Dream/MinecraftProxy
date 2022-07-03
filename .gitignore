@@ -7,3 +7,4 @@ dist
 *.png
 *.spec
 *.pyc
+*.egg-info
