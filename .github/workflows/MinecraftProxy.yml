@@ -32,13 +32,17 @@ jobs:
         python -m pip install pytest
         python -m pip install .
 
+    # check python version
+    - name: Display Python version
+      run: python -c "import sys; print(sys.version)"
+
     # Running Pytest
     - name: Pytest
       id: pytest
       run: |
         disp=:99
         screen=0
-        geom=640x480x24
+        geom=1024x1080x24
         exec Xvfb $disp -screen $screen $geom 2>/tmp/Xvfb.log &
         export DISPLAY=:99
         python -m pytest

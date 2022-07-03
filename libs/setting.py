@@ -5,9 +5,10 @@ import sys
 
 class Setting(tk.Frame):
 
-    def __init__(self, root=None,file=None):
+    def __init__(self, root=None,file=None,mode=None):
         super().__init__(root)
-        self.file= file
+        self.file = file
+        self.mode = mode
         self.root = root
         self.pack()
         self.pack_propagate(False)
@@ -45,29 +46,32 @@ class Setting(tk.Frame):
         self.input_msg1 = self.EditBox1.get()
         self.input_msg2 = self.EditBox2.get()
         if len(self.input_msg1)<=60:
-            messagebox.showwarning(
-                title="APIKEYの文字数が少ないです",
-                message="API KEYが間違っている可能性があります！\n確認してください",
-                master=self.root
-            )
+            if self.mode != "TEST":
+                messagebox.showwarning(
+                    title="APIKEYの文字数が少ないです",
+                    message="API KEYが間違っている可能性があります！\n確認してください",
+                    master=self.root
+                )
             return "API Error"
         elif len(self.input_msg2)<=0:
-            messagebox.showwarning(
-                title="名前を入力してください",
-                message="使用するにはDiscordの管理者名を入力する必要があります",
-                master=self.root
-            )
+            if self.mode != "TEST":
+                messagebox.showwarning(
+                    title="名前を入力してください",
+                    message="使用するにはDiscordの管理者名を入力する必要があります",
+                    master=self.root
+                )
             return "User Error"
         else:
-            messagebox.showinfo(
-                title="初回セットアップを完了させてください", 
-                message=(
-                    "Discordを開き、BOTを使用するチャンネルで「OK」と入力してください\n"
-                    "「OK」ボタンを押した後、プログラムはタスクトレイに格納されます\n"
-                    "プログラムはタスクトレイから「Exit」で停止できます"
-                ),
-                master=self.root
-            )
+            if self.mode != "TEST":
+                messagebox.showinfo(
+                    title="初回セットアップを完了させてください", 
+                    message=(
+                        "Discordを開き、BOTを使用するチャンネルで「OK」と入力してください\n"
+                        "「OK」ボタンを押した後、プログラムはタスクトレイに格納されます\n"
+                        "プログラムはタスクトレイから「Exit」で停止できます"
+                    ),
+                    master=self.root
+                )
             self.root.destroy()
             return "OK"
 
