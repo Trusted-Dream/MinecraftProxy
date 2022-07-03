@@ -54,7 +54,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const output = `#### `PIP Initialization` ⚙️\`${{ steps.pip.outcome }}\`
+          const output = `#### PIP Initialization ⚙️\`${{ steps.pip.outcome }}\`
           #### Pytest 📖\`${{ steps.pytest.outcome }}\`
 
           <details><summary>Show Pytest</summary>
