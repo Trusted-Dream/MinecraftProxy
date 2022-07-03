@@ -35,7 +35,13 @@ jobs:
       run: |
         python -m pip install -U pip
         python -m pip install pytest
-        python -m pip install .
+        result=$(python -m pip install .)
+        result="${result//'%'/'%25'}"
+        result="${result//$'\n'/'%0A'}"
+        result="${result//$'\r'/'%0D'}"
+        echo "::set-output name=pip_result::$result"
+
+      continue-on-error: true
 
     # check python version
     - name: Display Python version
@@ -54,17 +60,25 @@ jobs:
         result="${result//'%'/'%25'}"
         result="${result//$'\n'/'%0A'}"
         result="${result//$'\r'/'%0D'}" 
-        echo "::set-output name=result::$result"
+        echo "::set-output name=pytest_result::$result"
       continue-on-error: true
 
     - uses: actions/github-script@0.9.0
       if: github.event_name == 'pull_request'
       env:
-        PYTEST: "pytest\n${{ steps.pytest.outputs.result }}"
+        PYTEST: "Pytest ${{ matrix.python-version }}\n${{ steps.pytest.outputs.pytest_result }}"
+        PIP: "Pip\n${{ steps.pip.outputs.pip_result }}"
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const output = `#### PIP Initialization ⚙️ \`${{ steps.pip.outcome }}\`
+          const output = `#### pip install ⚙️ \`${{ steps.pip.outcome }}\`
+
+          \`\`\`\n
+          ${process.env.PIP}
+          \`\`\`
+
+          </details>
+
           #### Pytest 📖 \`${{ steps.pytest.outcome }}\`
 
           <details><summary>Show Pytest</summary>
