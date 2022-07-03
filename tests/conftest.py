@@ -20,7 +20,7 @@ def Tk():
     root.geometry("450x150"+geometry)
     root.attributes("-alpha",0.8)
     root.iconbitmap(default="")
-    root.after(5, root.destroy)
+    root.after(50, root.destroy)
     return root
 
 @pytest.fixture

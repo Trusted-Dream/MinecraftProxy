@@ -4,8 +4,6 @@ on:
     branches:
       - main
   pull_request:
-    branches:
-      - develop
 
 jobs:
   pytest:
@@ -21,13 +19,33 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up Tkinter
+      run: |
+          sudo apt-get install python3-tk
+          sudo apt-get install tk-dev
+
     # Pip Install
-    - name: Install dependencies
+    - name: Pip Install
       id: pip
       run: |
         python -m pip install -U pip
         python -m pip install pytest
-        python -m pip install .
+        result=$(python -m pip install .)
+        result="${result//'%'/'%25'}"
+        result="${result//$'\n'/'%0A'}"
+        result="${result//$'\r'/'%0D'}"
+        echo "::set-output name=pip_result::$result"
+
+      continue-on-error: true
+
+    # check python version
+    - name: Display Python version
+      run: python -c "import sys; print(sys.version)"
 
     # Running Pytest
     - name: Pytest
@@ -35,25 +53,40 @@ jobs:
       run: |
         disp=:99
         screen=0
-        geom=640x480x24
+        geom=1024x1080x24
         exec Xvfb $disp -screen $screen $geom 2>/tmp/Xvfb.log &
         export DISPLAY=:99
-        python -m pytest
+        result=$(python -m pytest)
+        result="${result//'%'/'%25'}"
+        result="${result//$'\n'/'%0A'}"
+        result="${result//$'\r'/'%0D'}" 
+        echo "::set-output name=pytest_result::$result"
+      continue-on-error: true
 
     - uses: actions/github-script@0.9.0
       if: github.event_name == 'pull_request'
       env:
-        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        PYTEST: "[Pytest ${{ matrix.python-version }}]\n${{ steps.pytest.outputs.pytest_result }}"
+        PIP: "[Pip Install]\n${{ steps.pip.outputs.pip_result }}"
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const output = `#### `PIP Initialization` ⚙️\`${{ steps.pip.outcome }}\`
-          #### Pytest 📖\`${{ steps.pytest.outcome }}\`
+          const output = `#### Pip install ⚙️ \`${{ steps.pip.outcome }}\`
 
-          <details><summary>Show Plan</summary>
+          <details><summary>Show Pip Install Detail</summary>
 
           \`\`\`\n
-          ${process.env.PLAN}
+          ${process.env.PIP}
+          \`\`\`
+
+          </details>
+
+          #### Pytest ${{ matrix.python-version }} 📖 \`${{ steps.pytest.outcome }}\`
+
+          <details><summary>Show Pytest Detail</summary>
+
+          \`\`\`\n
+          ${process.env.PYTEST}
           \`\`\`
 
           </details>
@@ -66,6 +99,10 @@ jobs:
             repo: context.repo.repo,
             body: output
           })
+
+    - name: Pip Install Status
+      if: steps.pip.outcome == 'failure'
+      run: exit 1
 
     - name: Pytest Status
       if: steps.pytest.outcome == 'failure'

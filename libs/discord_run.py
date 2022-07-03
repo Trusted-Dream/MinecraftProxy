@@ -22,10 +22,10 @@ class Discord:
             load_dotenv(verbose=True,dotenv_path=os.environ.get("SETTING_FILE"))
             owner_id = os.environ.get("DISCORD_OWNER_ID")
             cmd = Commnad()
-            if owner_id == None and message.content.startswith("OK"):
+            if owner_id is None and message.content.startswith("OK"):
                 result = cmd.discord_setup(message.author.id,message.author.name)
                 await message.channel.send(result)
-            elif owner_id == None:
+            elif owner_id is None:
                 send_message: str = (
                     "BOTを使用するチャンネルで`OK`と入力し、セットアップを完了させてください！"
                 )
