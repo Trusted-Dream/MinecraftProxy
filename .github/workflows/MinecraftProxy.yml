@@ -63,8 +63,10 @@ jobs:
 
           <details><summary>Show Pytest</summary>
 
+          \`\`\`\n
           ${process.env.PYTEST}
-
+          \`\`\`
+          
           </details>
 
           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
