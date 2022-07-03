@@ -1,0 +1,32 @@
+name: MinecraftProxy
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.10]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    # Pip Install
+    - name: Install dependencies
+      run: |
+        python -m pip install -U pip
+        python -m pip install .
+
+    # Running Pytest
+    - name: Pytest
+      run: |
+        disp=:99
+        screen=0
+        geom=640x480x24
+        exec Xvfb $disp -screen $screen $geom 2>/tmp/Xvfb.log &
+        export DISPLAY=:99
+        python -m pytest
