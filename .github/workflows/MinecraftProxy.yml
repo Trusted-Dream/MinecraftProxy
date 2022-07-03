@@ -71,7 +71,9 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const output = `#### pip install ⚙️ \`${{ steps.pip.outcome }}\`
+          const output = `#### Pip install ⚙️ \`${{ steps.pip.outcome }}\`
+
+          <details><summary>Show Pip Install Detail</summary>
 
           \`\`\`\n
           ${process.env.PIP}
@@ -79,9 +81,9 @@ jobs:
 
           </details>
 
-          #### Pytest 📖 \`${{ steps.pytest.outcome }}\`
+          #### Pytest ${{ matrix.python-version }} 📖 \`${{ steps.pytest.outcome }}\`
 
-          <details><summary>Show Pytest</summary>
+          <details><summary>Show Pytest Detail</summary>
 
           \`\`\`\n
           ${process.env.PYTEST}
@@ -97,6 +99,10 @@ jobs:
             repo: context.repo.repo,
             body: output
           })
+
+    - name: Pip Install Status
+      if: steps.pip.outcome == 'failure'
+      run: exit 1
 
     - name: Pytest Status
       if: steps.pytest.outcome == 'failure'
