@@ -19,13 +19,18 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Setup
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up Tkinter
       run: |
           sudo apt-get install python3-tk
           sudo apt-get install tk-dev
 
     # Pip Install
-    - name: Install dependencies
+    - name: Pip Install
       id: pip
       run: |
         python -m pip install -U pip
@@ -50,6 +55,7 @@ jobs:
         result="${result//$'\n'/'%0A'}"
         result="${result//$'\r'/'%0D'}" 
         echo "::set-output name=result::$result"
+      continue-on-error: true
 
     - uses: actions/github-script@0.9.0
       if: github.event_name == 'pull_request'
@@ -66,7 +72,7 @@ jobs:
           \`\`\`\n
           ${process.env.PYTEST}
           \`\`\`
-          
+
           </details>
 
           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
