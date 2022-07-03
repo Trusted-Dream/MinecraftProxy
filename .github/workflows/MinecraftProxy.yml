@@ -46,8 +46,8 @@ jobs:
         exec Xvfb $disp -screen $screen $geom 2>/tmp/Xvfb.log &
         export DISPLAY=:99
         result=$(python -m pytest)
-        result="${result//$'\n'/\\n}"
-        echo "::set-output name=result::$result"
+        echo "${result}"
+        echo "::set-output name=result::${result}"
 
     - uses: actions/github-script@0.9.0
       if: github.event_name == 'pull_request'
