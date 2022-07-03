@@ -4,7 +4,7 @@ import os
 import re
 import subprocess as prc
 from typing import Union
-from lib.minecraft_launcher import MinecraftLauncher
+from libs.minecraft_launcher import MinecraftLauncher
 from bs4 import BeautifulSoup
 
 class Minecraft_SetUp:
@@ -42,7 +42,7 @@ class Minecraft_SetUp:
                 return version
 
     def create_setup_file(self):
-        os.makedirs(self.dirname, exist_ok=True)
+        os.makedirs(self.dirname)
         eulafile = f"{self.dirname}/eula.txt"
         url = self.get_server_url(self.download_url)
         urlData = requests.get(url).content
