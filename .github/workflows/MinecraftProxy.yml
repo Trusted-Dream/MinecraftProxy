@@ -2,7 +2,7 @@ name: MinecraftProxy
 on:
   push:
     branches:
-      - main
+      - devlop
   pull_request:
 
 jobs:
