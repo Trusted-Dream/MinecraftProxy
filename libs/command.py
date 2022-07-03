@@ -2,8 +2,8 @@ import os
 import string
 import secrets
 
-from lib.minecraft_launcher import MinecraftLauncher
-from lib.minecraft_setup import Minecraft_SetUp
+from libs.minecraft_launcher import MinecraftLauncher
+from libs.minecraft_setup import Minecraft_SetUp
 from dotenv import load_dotenv
 
 class Commnad:
@@ -48,7 +48,10 @@ class Commnad:
     def minecraft_setup(self,argv) -> str:
         version_check_url = "https://mcversions.net"
         if len(argv) == 2:
-            send_message = Minecraft_SetUp(argv[1]).setup()
+            try:
+                send_message = Minecraft_SetUp(argv[1]).setup()
+            except FileExistsError as e:
+                return e.args[0]
             return send_message
             
         else:
@@ -62,8 +65,8 @@ class Commnad:
             return send_message
 
     # RCON Password Generator
-    def pass_gen(self,size=16) -> str:
-        chars = string.ascii_uppercase + string.ascii_lowercase + string.digits
+    def pass_gen(self,size=18) -> str:
+        chars = '?%&$#()' + string.ascii_uppercase + string.ascii_lowercase + string.digits
         password = ''.join(secrets.choice(chars) for x in range(size))
         return password
 

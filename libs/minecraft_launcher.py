@@ -41,7 +41,7 @@ class MinecraftLauncher:
         log_file = f"{self.cwd}//logs/latest.log"
 
         p=r"Done.*!\s.*"
-        with open(log_file, mode="r",encoding='utf-8') as f:
+        with open(log_file, mode="r") as f:
             result = [x for x in f.readlines() if re.search(p,x) is not None]
             return result
 

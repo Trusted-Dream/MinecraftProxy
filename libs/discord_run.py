@@ -1,4 +1,4 @@
-from lib.command import Commnad
+from libs.command import Commnad
 from dotenv import load_dotenv
 import discord
 import os
