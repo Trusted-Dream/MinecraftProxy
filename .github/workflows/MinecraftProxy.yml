@@ -46,7 +46,10 @@ jobs:
         exec Xvfb $disp -screen $screen $geom 2>/tmp/Xvfb.log &
         export DISPLAY=:99
         result=$(python -m pytest)
-        echo -e "::set-output name=result::${result//$'\n'/\\n}"
+        result="${result//'%'/'%25'}"
+        result="${result//$'\n'/'%0A'}"
+        result="${result//$'\r'/'%0D'}" 
+        echo "::set-output name=result::$result"
 
     - uses: actions/github-script@0.9.0
       if: github.event_name == 'pull_request'
@@ -55,8 +58,8 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const output = `#### PIP Initialization ⚙️\`${{ steps.pip.outcome }}\`
-          #### Pytest 📖\`${{ steps.pytest.outcome }}\`
+          const output = `#### PIP Initialization ⚙️ \`${{ steps.pip.outcome }}\`
+          #### Pytest 📖 \`${{ steps.pytest.outcome }}\`
 
           <details><summary>Show Pytest</summary>
 
