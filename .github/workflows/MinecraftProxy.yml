@@ -50,17 +50,17 @@ jobs:
     - uses: actions/github-script@0.9.0
       if: github.event_name == 'pull_request'
       env:
-        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        PYTEST: "pytest\n${{ steps.pytest.outputs.stdout }}"
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const output = `#### `PIP Initialization` ⚙️\`${{ steps.pip.outcome }}\`
           #### Pytest 📖\`${{ steps.pytest.outcome }}\`
 
-          <details><summary>Show Plan</summary>
+          <details><summary>Show Pytest</summary>
 
           \`\`\`\n
-          ${process.env.PLAN}
+          ${process.env.PYTEST}
           \`\`\`
 
           </details>
