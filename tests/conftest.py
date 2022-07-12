@@ -2,6 +2,13 @@ import tkinter as tk
 import pytest
 import string
 import secrets
+import os
+import asyncio
+
+@pytest.fixture(autouse=True)
+def init():
+    os.environ['SETTING_FILE'] = "setting.txt"
+    os.environ['IMAGE_FILE'] = "minecraft.ico"
 
 @pytest.fixture(autouse=True)
 def Tk():

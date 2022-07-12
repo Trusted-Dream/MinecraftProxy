@@ -1,11 +1,12 @@
+import asyncio
+import os
+import ctypes
+
 from libs.discord_run import Discord
 from pystray import Icon, Menu, MenuItem
 from tkinter import messagebox
 from PIL import Image
 from threading import Thread
-import asyncio
-import os
-import ctypes
 
 class Tray:
 
@@ -39,7 +40,7 @@ class Tray:
             )
             self.icon.stop()
 
-    def run(self):
+    def run(self) -> None:
         Kernel32 = ctypes.windll.Kernel32
         # Lock
         mutex = Kernel32.CreateMutexA(0, 1, "lock")
@@ -52,11 +53,9 @@ class Tray:
             )
         else:
             loop = asyncio.new_event_loop()
-            thread = Thread(target=self.discord_run,args=(loop,))
-            thread.daemon=True
+            thread = Thread(target=self.discord_run,args=(loop,),daemon=True)
             thread.start()
             self.icon.run()
-            
         Kernel32.ReleaseMutex(mutex)
         Kernel32.CloseHandle(mutex)
 

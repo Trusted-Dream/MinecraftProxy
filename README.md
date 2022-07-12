@@ -8,7 +8,7 @@ Minecraft ServerをDiscordから構築/開始/停止が行えます
 Windows 10,11
 
 ## 実行ファイル
-[MinecraftProxy_v1.1](https://github.com/Trusted-Dream/MinecraftProxy/releases/tag/v1.1)
+[MinecraftProxy_v1.2](https://github.com/Trusted-Dream/MinecraftProxy/releases/tag/v1.2)
 
 ## 動作に必要な項目
 - [Discord API](https://discord.com/developers/applications)

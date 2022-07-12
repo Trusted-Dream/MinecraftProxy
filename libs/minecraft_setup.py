@@ -3,6 +3,7 @@ import lxml.html
 import os
 import re
 import subprocess as prc
+
 from typing import Union
 from libs.minecraft_launcher import MinecraftLauncher
 from bs4 import BeautifulSoup
@@ -41,7 +42,7 @@ class Minecraft_SetUp:
                 version=re.sub(p,'',s)
                 return version
 
-    def create_setup_file(self):
+    def create_setup_file(self) -> None:
         os.makedirs(self.dirname)
         eulafile = f"{self.dirname}/eula.txt"
         url = self.get_server_url(self.download_url)
@@ -51,17 +52,23 @@ class Minecraft_SetUp:
         with open(eulafile, mode='w') as f:
             f.write("eula=true")
 
-    def create_batch_file(self):
+    def create_batch_file(self) -> None:
         batch_filename = f"{self.dirname}/start.bat"
-        # Initial Value -Xmx1024M -Xms1024M
+        # Initial Value -Xms1024M -Xmx2048M
         batch_contents = (
-            f"java -Xmx1024M -Xms1024M -jar {self.jarname} nogui"
-        )
+            f"java -Xms1024M -Xmx2048M -jar {self.jarname} nogui")
         with open(batch_filename, mode='w') as f:
             f.write(batch_contents)
 
-    def setup(self):
-        self.create_setup_file()
+    def setup(self) -> str:
+        try:
+            self.create_setup_file()
+        except FileExistsError:
+            msg = (
+                ":x: 既にフォルダが存在します。\n"
+                "新しくセットアップを行うには一度削除してください。\n"
+                "セットアップは中止しました。")
+            return msg
         self.create_batch_file()
         launcher = MinecraftLauncher(f"{self.dirname}/start.bat")
         result = launcher.start("setup")
@@ -70,6 +77,15 @@ class Minecraft_SetUp:
             launcher.server_properties()
             msg = ":white_check_mark: セットアップ完了しました。"
             return msg
+        elif "No such file or directory" in result:
+            msg = (
+                ":x: セットアップファイルの生成に失敗しました。\n"
+                "JDKが正しくインストールされているか確認してください。\n"
+                "https://www.oracle.com/java/technologies/downloads/#jdk18-windows\n"
+                "その後、単体で「start.bat」を実行してみてください。")
+            return msg
         else:
-            msg = ":x: セットアップに失敗しました。"
+            msg = (
+                ":x: 何らかの理由でセットアップに失敗しました。\n"
+                "単体で「start.bat」を実行してみてください。")
             return msg
