@@ -2,9 +2,11 @@ __pycache__
 setting.txt
 build*
 dist
+.pytest_cache
 *venv*
-*.ico
 *.png
 *.spec
 *.pyc
+*.log
 *.egg-info
+sample.py

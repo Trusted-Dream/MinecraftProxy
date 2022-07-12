@@ -1,8 +1,8 @@
-from tkinter import messagebox
 import tkinter as tk
 import os
 import sys
 
+from tkinter import messagebox
 class Setting(tk.Frame):
 
     def __init__(self, root=None,file=None,mode=None):

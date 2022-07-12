@@ -3,7 +3,9 @@ import time
 import os
 import pathlib
 import re
+
 from mcrcon import MCRcon
+from typing import Union
 
 class MinecraftLauncher:
     def __init__(self,batchfile=""):
@@ -37,9 +39,7 @@ class MinecraftLauncher:
             f.write(data_lines)
 
     def latest_log_check(self) -> list:
-
         log_file = f"{self.cwd}//logs/latest.log"
-
         p=r"Done.*!\s.*"
         with open(log_file, mode="r") as f:
             result = [x for x in f.readlines() if re.search(p,x) is not None]
@@ -53,7 +53,10 @@ class MinecraftLauncher:
         for x in range(60):
             time.sleep(2)
             if switch == "setup":
-                check = self.latest_log_check()
+                try:
+                    check = self.latest_log_check()
+                except FileNotFoundError as e:
+                    return e.args[1]
             else:
                 check = self.port_check()
             if check:
