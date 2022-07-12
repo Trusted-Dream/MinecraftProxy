@@ -13,6 +13,8 @@ Windows 10,11
 ## 動作に必要な項目
 - [Discord API](https://discord.com/developers/applications)
 
+## ウィルスと誤検知してしまった場合の対処方法
+- [Wiki](https://github.com/Trusted-Dream/MinecraftProxy/wiki/%E7%A2%BA%E8%AA%8D%E3%81%97%E3%81%A6%E3%81%84%E3%82%8B%E4%B8%8D%E5%85%B7%E5%90%88)
 ## Discord コマンド
  - `!help`
  - `!setup {Ver}`
