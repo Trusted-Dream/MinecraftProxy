@@ -29,7 +29,21 @@ $ python launch.py
 ```
 ※ Tkinter は必須です。
 
-[Tkinter Dev](https://www.tcl.tk/software/tcltk/download.html)
+- [Tkinter Dev](https://www.tcl.tk/software/tcltk/download.html)
+
+## バイナリ化方法
+- nuitka を使いました。ビルドに結構時間かかりますが、ファイルが小さく速度も速いです。
+```
+$ pip install nuitka zstandard
+$ pip install .
+$ python -m nuitka --windows-disable-console --onefile --mingw64 --windows-icon-from-ico=minecraft.ico --enable-plugin=tk-inter --include-data-file="D:/Path/MinecraftProxy/minecraft.ico=./" --follow-imports --show-progress --output-dir=output -o minecraft_proxy.exe launch.py
+```
+※1 `--include-data-file` は`minecraft.ico`の階層までの絶対パスを記述します。`=./`はそのままでOK
+
+※2 `mingw64`を使用しています。
+
+- 実行したディレクトリに`minecraft_proxy.exe`があればOK
+
 ## その他
  - バグ等の報告は大歓迎です
  - Issue上げてください
